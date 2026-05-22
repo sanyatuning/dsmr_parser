@@ -23,7 +23,7 @@ TEST_CASE_FIXTURE(LogFixture, "Should parse all fields in the DSMR message corre
                     "1-0:2.8.11(000000.000*kWh)\r\n"
                     "1-0:2.8.12(000000.000*kWh)\r\n"
                     "1-0:2.8.13(000000.000*kWh)\r\n"
-                    "0-0:96.14.0(0001)\r\n"
+                    "0-0:96.14.0(Some long string 32 bytes)\r\n"
                     "0-0:96.14.1(03)\r\n"
                     "1-0:1.7.0(00.333*kW)\r\n"
                     "1-0:2.7.0(00.000*kW)\r\n"
@@ -150,7 +150,7 @@ TEST_CASE_FIXTURE(LogFixture, "Should parse all fields in the DSMR message corre
   REQUIRE(data.energy_delivered_tariff2 == 842.472f);
   REQUIRE(data.energy_returned_tariff1 == 0.0f);
   REQUIRE(data.energy_returned_tariff2 == 0.0f);
-  REQUIRE(data.electricity_tariff == "0001");
+  REQUIRE(data.electricity_tariff == "Some long string 32 bytes");
   REQUIRE(data.electricity_tariff_il == "03");
   REQUIRE(data.energy_delivered_tariff1_il == 7132.419f);
   REQUIRE(data.energy_delivered_tariff2_il == 155.482f);
@@ -726,16 +726,4 @@ TEST_CASE_FIXTURE(LogFixture, "ParsedData without any fields") {
   const auto& res = DsmrParser::parse(data, DsmrUnencryptedTelegram(msg));
   REQUIRE(res);
   REQUIRE(data.all_present());
-}
-
-TEST_CASE_FIXTURE(LogFixture, "Electricity tariff EON Hungary") {
-  const auto& msg = "/WSE5Wasion--Meter---\r\n"
-                    "\r\n"
-                    "0-0:96.14.0(TARIFF 1)\r\n"
-                    "!";
-
-  ParsedData<electricity_tariff> data;
-  auto res = DsmrParser::parse(data, DsmrUnencryptedTelegram(msg));
-  REQUIRE(res);
-  REQUIRE(data.electricity_tariff == "TARIFF 1");
 }
