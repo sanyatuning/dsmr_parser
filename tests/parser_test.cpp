@@ -727,3 +727,15 @@ TEST_CASE_FIXTURE(LogFixture, "ParsedData without any fields") {
   REQUIRE(res);
   REQUIRE(data.all_present());
 }
+
+TEST_CASE_FIXTURE(LogFixture, "Electricity tariff EON Hungary") {
+  const auto& msg = "/WSE5Wasion--Meter---\r\n"
+                    "\r\n"
+                    "0-0:96.14.0(TARIFF 1)\r\n"
+                    "!";
+
+  ParsedData<electricity_tariff> data;
+  auto res = DsmrParser::parse(data, DsmrUnencryptedTelegram(msg));
+  REQUIRE(res);
+  REQUIRE(data.electricity_tariff == "TARIFF 1");
+}

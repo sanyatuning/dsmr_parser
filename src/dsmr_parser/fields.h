@@ -318,7 +318,7 @@ DEFINE_FIELD(electricity_failure_log_il, std::string_view, ObisId(1, 0, 99, 1, 0
 // Tariff indicator electricity. The tariff indicator can also be used
 // to switch tariff dependent loads e.g boilers. This is the
 // responsibility of the P1 user
-DEFINE_FIELD(electricity_tariff, std::string_view, ObisId(0, 0, 96, 14, 0), StringField, 4, 4);
+DEFINE_FIELD(electricity_tariff, std::string_view, ObisId(0, 0, 96, 14, 0), StringField, 4, 16);
 
 // Actual electricity power delivered (+P) in 1 Watt resolution
 DEFINE_FIELD(power_delivered, FixedValue, ObisId(1, 0, 1, 7, 0), FixedField, units::kW, units::W);
